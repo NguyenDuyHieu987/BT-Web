@@ -44,21 +44,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Liên kết các biến với câu lệnh đã chuẩn bị
             mysqli_stmt_bind_param($stmt, "sss", $param_name, $param_address, $param_salary);
-
             // Thiết lập tham số
             $param_name = $name;
             $param_address = $address;
             $param_salary = $salary;
 
-            // Cố gắng thực thi câu lệnh đã chuẩn bị
             if (mysqli_stmt_execute($stmt)) {
-                // Tạo bản ghi thành công. Chuyển hướng đến trang đích
-                header("location: index.php");
-                exit();
+                // Lấy ID đã chèn cuối cùng
+                $last_id = mysqli_insert_id($link);
+                echo "Chèn bản ghi thành công. ID đã chèn cuối cùng là: " . $last_id;
             } else {
                 echo "Oh, no. Có gì đó sai sai. Vui lòng thử lại.";
             }
+            $last_id = mysqli_insert_id($link);
         }
+
+
+        // if ($stmt = mysqli_prepare($link, $sql)) {
+        //     // Liên kết các biến với câu lệnh đã chuẩn bị
+        //     mysqli_stmt_bind_param($stmt, "sss", $param_name, $param_address, $param_salary);
+
+        //     // Thiết lập tham số
+        //     $param_name = $name;
+        //     $param_address = $address;
+        //     $param_salary = $salary;
+
+        //     // Cố gắng thực thi câu lệnh đã chuẩn bị
+        //     if (mysqli_stmt_execute($stmt)) {
+        //         // Tạo bản ghi thành công. Chuyển hướng đến trang đích
+        //         header("location: index.php");
+        //         exit();
+        //     } else {
+        //         echo "Oh, no. Có gì đó sai sai. Vui lòng thử lại.";
+        //     }
+        // }
 
         // Đóng câu lệnh
         mysqli_stmt_close($stmt);
